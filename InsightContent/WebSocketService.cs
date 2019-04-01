@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Net.WebSockets;
@@ -32,37 +34,18 @@ namespace InsightContent
             var result = await ProcessReceive(webSocket);
             while (!result.Item1.CloseStatus.HasValue)
             {
-                await ProcessSend(webSocket, result.Item2);
+                await ProcessSend(webSocket, getData(result.Item2));
                 result = await ProcessReceive(webSocket);
+                // TO DO: check time elapse
+                Thread.Sleep(1000);
             }
             await webSocket.CloseAsync(result.Item1.CloseStatus.Value, result.Item1.CloseStatusDescription, CancellationToken.None);
         }
 
         private static async Task ProcessSend(WebSocket webSocket, string req)
         {
-            var r = new Random(100);
-            if (req == "time")
-            {
-                int i = 0;
-                while(i < 60)
-                {
-                    byte[] array = Encoding.ASCII.GetBytes(i.ToString());
-                    await webSocket.SendAsync(new ArraySegment<byte>(array), WebSocketMessageType.Text, true, CancellationToken.None);
-                    i++;
-                    Thread.Sleep(1000);
-                }
-            }
-            else
-            {
-                int i = 5;
-                while (i > 0)
-                {
-                    byte[] array = Encoding.ASCII.GetBytes(r.Next(5).ToString());
-                    await webSocket.SendAsync(new ArraySegment<byte>(array), WebSocketMessageType.Text, true, CancellationToken.None);
-                    i--;
-                    Thread.Sleep(1000);
-                }
-            }            
+            byte[] array = Encoding.ASCII.GetBytes(req.ToString());
+            await webSocket.SendAsync(new ArraySegment<byte>(array), WebSocketMessageType.Text, true, CancellationToken.None);
         }
         private static async Task<(WebSocketReceiveResult, string)> ProcessReceive(WebSocket webSocket)
         {
@@ -89,6 +72,30 @@ namespace InsightContent
                 }
             }
             return (result, null);
+        }
+
+        static Random seed = new Random(100);
+        private static string getData(string requestData)
+        {
+            if (requestData == string.Empty)
+            {
+                return "";
+            }
+
+            var dt = JsonConvert.DeserializeObject<DataTable>(requestData);
+            foreach(DataRow dr in dt.Rows)
+            {
+                if (Convert.ToString(dr[0]).Contains("SysTimeSec"))
+                {
+                    dr[1] = DateTime.Now.Second.ToString();
+                }
+                else
+                {
+                    dr[1] = seed.Next(100).ToString();
+                }
+            }
+
+            return JsonConvert.SerializeObject(dt);
         }
     }
 }
