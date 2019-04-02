@@ -87,13 +87,19 @@ namespace InsightContent
             {
                 if (Convert.ToString(dr[0]).Contains("SysTimeSec"))
                 {
-                    dr[1] = DateTime.Now.Second.ToString();
+                    dr[1] = DateTime.Now.Second;
                     dr[2] = 59;
                     dr[3] = 0;
                 }
+                else if (Convert.ToString(dr[0]).Contains("Trend"))
+                {
+                    dr[1] = Math.Sin(Math.PI * 2 * DateTime.Now.Second / 60);
+                    dr[2] = 1;
+                    dr[3] = -1;
+                }
                 else
                 {
-                    dr[1] = seed.Next(100).ToString();
+                    dr[1] = seed.Next(100);
                     dr[2] = 100;
                     dr[3] = 0;
                 }
