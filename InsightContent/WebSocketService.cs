@@ -88,10 +88,14 @@ namespace InsightContent
                 if (Convert.ToString(dr[0]).Contains("SysTimeSec"))
                 {
                     dr[1] = DateTime.Now.Second.ToString();
+                    dr[2] = 59;
+                    dr[3] = 0;
                 }
                 else
                 {
                     dr[1] = seed.Next(100).ToString();
+                    dr[2] = 100;
+                    dr[3] = 0;
                 }
             }
 
