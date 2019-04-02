@@ -27,18 +27,21 @@ namespace InsightContent
             await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
         }
 
-        public static async Task ProcessWebSocket(HttpContext context, WebSocket webSocket)
+        public static async Task ProcessWebSocket(HttpContext context, WebSocket webSocket, IPubSubService broker)
         {
             ArraySegment<Byte> buffer = new ArraySegment<byte>(new Byte[1024 * 4]);
 
             var result = await ProcessReceive(webSocket);
             while (!result.Item1.CloseStatus.HasValue)
             {
-                await ProcessSend(webSocket, getData(result.Item2));
+                // await ProcessSend(webSocket, getData(result.Item2));
+                broker.Subscribe(result.Item2, webSocket);
                 result = await ProcessReceive(webSocket);
                 // TO DO: check time elapse
-                Thread.Sleep(1000);
+                // Thread.Sleep(1000);
             }
+            // TO DO: Unsubscribe all tags
+            broker.Unsubscribe(result.Item2);
             await webSocket.CloseAsync(result.Item1.CloseStatus.Value, result.Item1.CloseStatusDescription, CancellationToken.None);
         }
 

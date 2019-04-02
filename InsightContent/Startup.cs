@@ -29,10 +29,11 @@ namespace InsightContent
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddSingleton(typeof(IPubSubService), typeof(PubSubService));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IPubSubService broker)
         {
             loggerFactory.AddConsole(LogLevel.Debug);
             loggerFactory.AddDebug(LogLevel.Debug);
@@ -58,7 +59,7 @@ namespace InsightContent
                     if (context.WebSockets.IsWebSocketRequest)
                     {
                         WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
-                        await WebSocketService.ProcessWebSocket(context, webSocket);
+                        await WebSocketService.ProcessWebSocket(context, webSocket, broker);
                     }
                     else
                     {
