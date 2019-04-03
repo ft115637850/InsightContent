@@ -65,6 +65,12 @@ namespace InsightContent
                     dr[2] = 1;
                     dr[3] = -1;
                 }
+                else if (item.Key.Contains("Pump"))
+                {
+                    dr[1] = DateTime.Now.Second % 10 == 0 ? 1 : 0;
+                    dr[2] = 1;
+                    dr[3] = -1;
+                }
                 else
                 {
                     dr[1] = seed.Next(100);

@@ -22,8 +22,6 @@ namespace InsightContent
             var result = await ProcessReceive(webSocket);
             while (!result.Item1.CloseStatus.HasValue)
             {
-                // await ProcessSend(webSocket, getData(result.Item2));
-                // broker.Subscribe(result.Item2, webSocket);
                 if (result.Item2 != string.Empty)
                 {
                     var dt = JsonConvert.DeserializeObject<DataTable>(result.Item2);
