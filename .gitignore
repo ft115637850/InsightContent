@@ -1,3 +1,4 @@
 /InsightContent/obj/*
 /InsightContent/bin/*
 /InsightContent/Properties/PublishProfiles/FolderProfile.pubxml.user
+/.vs/*
