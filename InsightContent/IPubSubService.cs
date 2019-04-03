@@ -9,8 +9,8 @@ namespace InsightContent
 {
     public interface IPubSubService
     {
-        void Subscribe(string requestData, WebSocket ws);
-        void Unsubscribe(string requestData);
+        void Subscribe(string topic, WebSocket ws, Guid socketId);
+        void Unsubscribe(string topic, Guid socketId);
         Task StartAsync(CancellationToken cancellationToken);
         Task StopAsync(CancellationToken cancellationToken);
     }

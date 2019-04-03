@@ -15,7 +15,7 @@ namespace InsightContent
     {
         private readonly ILogger _logger;
         private Timer _timer;
-        private IDictionary<string, IList<WebSocket>> subscriptionList = new Dictionary<string, IList<WebSocket>>();
+        private IDictionary<string, List<(WebSocket, Guid)>> subscriptionList = new Dictionary<string, List<(WebSocket, Guid)>>();
         private Random seed = new Random(100);
 
         public PubSubService(ILogger<PubSubService> logger)
@@ -42,8 +42,15 @@ namespace InsightContent
             dt.Columns.Add(new DataColumn("value"));
             dt.Columns.Add(new DataColumn("max"));
             dt.Columns.Add(new DataColumn("min"));
-            foreach (var item in subscriptionList)
+            var removeList = new List<string>();
+            foreach (var item in this.subscriptionList)
             {
+                item.Value.RemoveAll(x => x.Item1.CloseStatus.HasValue);
+                if (item.Value.Count == 0)
+                {
+                    removeList.Add(item.Key);
+                    continue;
+                }
                 var dr = dt.NewRow();
                 dr[0] = item.Key;
                 if (item.Key.Contains("SysTimeSec"))
@@ -66,12 +73,18 @@ namespace InsightContent
                 }
                 dt.Rows.Add(dr);
                 var result = JsonConvert.SerializeObject(dt);
+
                 foreach (var ws in item.Value)
                 {
                     byte[] array = Encoding.ASCII.GetBytes(result);
-                    ws.SendAsync(new ArraySegment<byte>(array), WebSocketMessageType.Text, true, CancellationToken.None);
+                    ws.Item1.SendAsync(new ArraySegment<byte>(array), WebSocketMessageType.Text, true, CancellationToken.None);
                 }
                 dt.Clear();
+            }
+
+            foreach(var topic in removeList)
+            {
+                this.subscriptionList.Remove(topic);
             }
         }
 
@@ -89,44 +102,28 @@ namespace InsightContent
             _timer?.Dispose();
         }
 
-        public void Subscribe(string requestData, WebSocket ws)
+        public void Subscribe(string topic, WebSocket ws, Guid wsId)
         {
-            if (requestData == string.Empty)
+            if (this.subscriptionList.ContainsKey(topic))
             {
-                return;
+                this.subscriptionList[topic].Add((ws, wsId));
             }
-
-            var dt = JsonConvert.DeserializeObject<DataTable>(requestData);
-            foreach (DataRow dr in dt.Rows)
+            else
             {
-                var topic = Convert.ToString(dr[0]);
-                if (this.subscriptionList.ContainsKey(topic))
-                {
-                    this.subscriptionList[topic].Add(ws);
-                }
-                else
-                {
-                    this.subscriptionList.Add(topic, new List<WebSocket>() { ws });
-                }
+                this.subscriptionList.Add(topic, new List<(WebSocket, Guid)>() { (ws, wsId) });
             }
         }
 
-        public void Unsubscribe(string requestData)
+        public void Unsubscribe(string topic, Guid wsId)
         {
-            if (requestData == string.Empty)
+            if (this.subscriptionList.ContainsKey(topic))
             {
-                return;
-            }
-            /*
-            var dt = JsonConvert.DeserializeObject<DataTable>(requestData);
-            foreach (DataRow dr in dt.Rows)
-            {
-                var topic = Convert.ToString(dr[0]);
-                if (this.subscriptionList.ContainsKey(topic))
+                this.subscriptionList[topic].RemoveAll(x => x.Item2 == wsId);
+                if (this.subscriptionList[topic].Count == 0)
                 {
                     this.subscriptionList.Remove(topic);
                 }
-            }*/
+            }
         }
     }
 }
