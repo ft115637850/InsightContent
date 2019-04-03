@@ -106,7 +106,10 @@ namespace InsightContent
         {
             if (this.subscriptionList.ContainsKey(topic))
             {
-                this.subscriptionList[topic].Add((ws, wsId));
+                if (this.subscriptionList[topic].FindIndex(x => x.Item2 == wsId) == -1)
+                {
+                    this.subscriptionList[topic].Add((ws, wsId));
+                }
             }
             else
             {
