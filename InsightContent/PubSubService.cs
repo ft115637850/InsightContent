@@ -53,7 +53,19 @@ namespace InsightContent
                 }
                 var dr = dt.NewRow();
                 dr[0] = item.Key;
-                if (item.Key.Contains("SysTimeSec"))
+                if (item.Key == "isPumping")
+                {
+                    dr[1] = DateTime.Now.Second % 10 > 5;
+                    dr[2] = true;
+                    dr[3] = false;
+                }
+                else if (item.Key == "noPumping")
+                {
+                    dr[1] = DateTime.Now.Second % 10 < 5;
+                    dr[2] = true;
+                    dr[3] = false;
+                }
+                else if (item.Key.Contains("SysTimeSec"))
                 {
                     dr[1] = DateTime.Now.Second;
                     dr[2] = 59;
@@ -67,7 +79,7 @@ namespace InsightContent
                 }
                 else if (item.Key.Contains("Pump"))
                 {
-                    dr[1] = DateTime.Now.Second % 10 == 0 ? 1 : 0;
+                    dr[1] = DateTime.Now.Second % 10 > 5 ? 1 : 0;
                     dr[2] = 1;
                     dr[3] = -1;
                 }
