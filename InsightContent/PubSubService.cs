@@ -65,6 +65,12 @@ namespace InsightContent
                     dr[2] = true;
                     dr[3] = false;
                 }
+                else if (item.Key == "changingString")
+                {
+                    dr[1] = DateTime.Now.Second % 10 < 5 ? "DateTime" : "DateTime.Now.Second";
+                    dr[2] = true;
+                    dr[3] = false;
+                }
                 else if (item.Key.Contains("SysTimeSec"))
                 {
                     dr[1] = DateTime.Now.Second;
