@@ -55,21 +55,21 @@ namespace InsightContent
                 dr[0] = item.Key;
                 if (item.Key == "isPumping")
                 {
-                    dr[1] = DateTime.Now.Second % 10 > 5;
-                    dr[2] = true;
-                    dr[3] = false;
+                    dr[1] = DateTime.Now.Second % 10 > 5 ? "ON" : "OFF";
+                    dr[2] = "";
+                    dr[3] = "";
                 }
                 else if (item.Key == "noPumping")
                 {
-                    dr[1] = DateTime.Now.Second % 10 < 5;
-                    dr[2] = true;
-                    dr[3] = false;
+                    dr[1] = DateTime.Now.Second % 10 < 5 ? "ON" : "OFF";
+                    dr[2] = "";
+                    dr[3] = "";
                 }
                 else if (item.Key == "changingString")
                 {
                     dr[1] = DateTime.Now.Second % 10 < 5 ? "DateTime" : "DateTime.Now.Second";
-                    dr[2] = true;
-                    dr[3] = false;
+                    dr[2] = "";
+                    dr[3] = "";
                 }
                 else if (item.Key.Contains("SysTimeSec"))
                 {
