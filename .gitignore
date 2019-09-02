@@ -2,3 +2,7 @@
 /InsightContent/bin/*
 /InsightContent/Properties/PublishProfiles/FolderProfile.pubxml.user
 /.vs/*
+/AuthenticationService/obj/*
+netstandard2.0
+obj
+/AuthenticationService/*.user

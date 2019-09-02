@@ -5,7 +5,7 @@ using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace InsightContent
+namespace InsightContent.Services
 {
     public interface IPubSubService
     {

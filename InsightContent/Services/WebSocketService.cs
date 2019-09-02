@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace InsightContent
+namespace InsightContent.Services
 {
     public class WebSocketService
     {

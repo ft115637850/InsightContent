@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
+using InsightContent.Middlewares;
+using InsightContent.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -43,7 +45,7 @@ namespace InsightContent
             }
             else
             {
-                app.UseHsts();
+                //app.UseHsts();
             }
 
             var webSocketOptions = new WebSocketOptions()
@@ -52,28 +54,8 @@ namespace InsightContent
                 ReceiveBufferSize = 4 * 1024
             };
             app.UseWebSockets(webSocketOptions);
-            app.Use(async (context, next) =>
-            {
-                if (context.Request.Path == "/ws")
-                {
-                    if (context.WebSockets.IsWebSocketRequest)
-                    {
-                        WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
-                        await WebSocketService.ProcessWebSocket(context, webSocket, broker);
-                    }
-                    else
-                    {
-                        context.Response.StatusCode = 400;
-                    }
-                }
-                else
-                {
-                    await next();
-                }
-
-            });
-
-            app.UseHttpsRedirection();
+            app.UseMiddleware<WebSocketMiddleware>(broker);
+            //app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

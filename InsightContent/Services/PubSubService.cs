@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace InsightContent
+namespace InsightContent.Services
 {
     public class PubSubService : IPubSubService, IDisposable
     {
@@ -36,7 +36,6 @@ namespace InsightContent
 
         private void DoWork(object state)
         {
-            _logger.LogInformation("Timed Background Service is working.");
             var dt = new DataTable();
             dt.Columns.Add(new DataColumn("tagName"));
             dt.Columns.Add(new DataColumn("value"));
