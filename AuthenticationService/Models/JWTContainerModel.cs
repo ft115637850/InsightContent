@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Text;
+﻿using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AuthenticationService.Models
 {
-    class JWTContainerModel : IAuthContainerModel
+    public class JWTContainerModel : IAuthContainerModel
     {
-        public string SecretKey { get; set; }
-        public string SecurityAlgorithm { get; set; }
-        public int ExpireMinutes { get; set; }
+        public string SecurityAlgorithm { get; set; } = SecurityAlgorithms.HmacSha256;
+        public int ExpireMinutes { get; set; } = 10080;
         public Claim[] Claims { get; set; }
     }
 }
