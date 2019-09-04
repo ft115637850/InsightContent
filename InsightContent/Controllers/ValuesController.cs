@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using InsightContent.Attributes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InsightContent.Controllers
@@ -12,6 +14,7 @@ namespace InsightContent.Controllers
     {
         // GET api/values
         [HttpGet]
+        [Authorize(Roles = "admin,user")]
         public ActionResult<IEnumerable<string>> Get()
         {
             return new string[] { "value1", "value2" };

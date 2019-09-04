@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InsightContent", "InsightCo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationService", "AuthenticationService\AuthenticationService.csproj", "{24C901B5-B4F0-4377-9B1A-95E490288818}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationService.Test", "AuthenticationService.Test\AuthenticationService.Test.csproj", "{0AA1C951-0C5A-4ECA-BD21-1AA77BC6DC7F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{24C901B5-B4F0-4377-9B1A-95E490288818}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24C901B5-B4F0-4377-9B1A-95E490288818}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24C901B5-B4F0-4377-9B1A-95E490288818}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AA1C951-0C5A-4ECA-BD21-1AA77BC6DC7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AA1C951-0C5A-4ECA-BD21-1AA77BC6DC7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AA1C951-0C5A-4ECA-BD21-1AA77BC6DC7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AA1C951-0C5A-4ECA-BD21-1AA77BC6DC7F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,4 +5,5 @@
 /AuthenticationService/obj/*
 netstandard2.0
 obj
+bin
 /AuthenticationService/*.user

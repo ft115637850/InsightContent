@@ -75,7 +75,7 @@ namespace AuthenticationService.Managers
 
         private SecurityKey GetSymmetricSecurityKey()
         {
-            byte[] symmetricKey = Convert.FromBase64String(SecretKey);
+            byte[] symmetricKey = System.Text.Encoding.ASCII.GetBytes(SecretKey);
             return new SymmetricSecurityKey(symmetricKey);
         }
 
