@@ -29,10 +29,21 @@ namespace InsightContent
         }
 
         public IConfiguration Configuration { get; }
+        readonly string corsPolicy = "allowOrigins";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(corsPolicy,
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:4200")
+                                        .AllowAnyHeader()
+                                        .AllowAnyMethod();
+                });
+            });
             services.AddAuthentication(o =>
             {
                 o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -93,6 +104,7 @@ namespace InsightContent
             };
             app.UseWebSockets(webSocketOptions);
             app.UseMiddleware<WebSocketMiddleware>(broker);
+            app.UseCors(corsPolicy);
             app.UseAuthentication();
             //app.UseHttpsRedirection();
             app.UseMvc();
