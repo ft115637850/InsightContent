@@ -8,13 +8,13 @@ namespace DataBaseAccessService.Test
     [TestClass]
     public class DataBaseAccessServiceTests
     {
-        private IDBAccessService dbSvc = new DBAccessService("localhost", "wwuser", "Wonderware777", "cloud_viz");
+        private IDBAccessService dbSvc = new DBAccessService("localhost", "wwuser", "Wonderware777", "cloud_viz", "Wonderware777");
         [TestMethod]
         public void TestGetData()
         {
-            DbParameter[] parms = new MySqlParameter[]
+            var parms = new Tuple<string, object>[]
             {
-                new MySqlParameter("@id", "50fa5b7d-d06d-11e9-a5f8-8cec4bc2b666"),
+                new Tuple<string, object>("@id", "50fa5b7d-d06d-11e9-a5f8-8cec4bc2b666")
             };
             var result = dbSvc.GetData("select * from user where id=@id", parms);
             Assert.AreEqual(1, result.Rows.Count);
@@ -22,11 +22,22 @@ namespace DataBaseAccessService.Test
         }
 
         [TestMethod]
+        public void TestGetDataNoData()
+        {
+            var parms = new Tuple<string, object>[]
+            {
+                new Tuple<string, object>("@id", "50fa5b7d-1111-1111-a5f8-8cec4bc2b666"),
+            };
+            var result = dbSvc.GetData("select * from user where id=@id", parms);
+            Assert.AreEqual(0, result.Rows.Count);
+        }
+
+        [TestMethod]
         public void TestGetDataFailure()
         {
-            DbParameter[] parms = new MySqlParameter[]
+            var parms = new Tuple<string, object>[]
             {
-                new MySqlParameter("@id", "50fa5b7d-d06d-11e9-a5f8-8cec4bc2b666"),
+                new Tuple<string, object>("@id", "50fa5b7d-d06d-11e9-a5f8-8cec4bc2b666"),
             };
             Assert.ThrowsException<MySqlException>(() => dbSvc.GetData("select * from user where id=@id id=@id", parms));
         }
@@ -34,21 +45,32 @@ namespace DataBaseAccessService.Test
         [TestMethod]
         public void TestGetSingleValue()
         {
-            DbParameter[] parms = new MySqlParameter[]
+            var parms = new Tuple<string, object>[]
             {
-                new MySqlParameter("@id", "50fa5b7d-d06d-11e9-a5f8-8cec4bc2b666"),
+                new Tuple<string, object>("@id", "50fa5b7d-d06d-11e9-a5f8-8cec4bc2b666"),
             };
             var result = dbSvc.GetSingleValue("select name from user where id=@id", parms);
             Assert.AreEqual("小明", Convert.ToString(result));
         }
 
         [TestMethod]
+        public void TestGetSingleValueNoData()
+        {
+            var parms = new Tuple<string, object>[]
+            {
+                new Tuple<string, object>("@id", "50fa5b7d-1111-1111-a5f8-8cec4bc2b666"),
+            };
+            var result = dbSvc.GetSingleValue("select name from user where id=@id", parms);
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
         public void TestExecuteNonQuery()
         {
-            DbParameter[] parms = new MySqlParameter[]
+            var parms = new Tuple<string, object>[]
             {
-                new MySqlParameter("@id", "50fa5b7d-d06d-11e9-a5f8-8cec4bc2b666"),
-                new MySqlParameter("@note", "unit test")
+                new Tuple<string, object>("@id", "50fa5b7d-d06d-11e9-a5f8-8cec4bc2b666"),
+                new Tuple<string, object>("@note", "unit test")
             };
             var upd = dbSvc.ExecuteNonQuery("update user set note=@note where id=@id", parms);
             Assert.AreEqual(1, upd);
@@ -56,10 +78,10 @@ namespace DataBaseAccessService.Test
             var result = dbSvc.GetSingleValue("select note from user where id='50fa5b7d-d06d-11e9-a5f8-8cec4bc2b666'", null);
             Assert.AreEqual("unit test", Convert.ToString(result));
 
-            parms = new MySqlParameter[]
+            parms = new Tuple<string, object>[]
             {
-                new MySqlParameter("@id", "50fa5b7d-d06d-11e9-a5f8-8cec4bc2b666"),
-                new MySqlParameter("@note", "unit test2")
+                new Tuple<string, object>("@id", "50fa5b7d-d06d-11e9-a5f8-8cec4bc2b666"),
+                new Tuple<string, object>("@note", "unit test2")
             };
             upd = dbSvc.ExecuteNonQuery("update user set note=@note where id=@id", parms);
             Assert.AreEqual(1, upd);

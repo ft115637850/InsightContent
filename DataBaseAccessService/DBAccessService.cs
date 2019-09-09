@@ -9,8 +9,9 @@ namespace DataBaseAccessService
     public class DBAccessService : IDBAccessService
     {
         private string connectStr;
+        public string EncryptKey { get; }
 
-        public DBAccessService(string server, string dbUsr, string dbpwd, string dbName)
+        public DBAccessService(string server, string dbUsr, string dbpwd, string dbName, string encryptKey)
         {
             this.connectStr = new MySqlConnectionStringBuilder()
             {
@@ -19,9 +20,10 @@ namespace DataBaseAccessService
                 Password = dbpwd,
                 Database = dbName
             }.ToString();
+            this.EncryptKey = encryptKey;
         }
 
-        public DataTable GetData(string sqlTxt, DbParameter[] parms)
+        public DataTable GetData(string sqlTxt, Tuple<string, object>[] parms)
         {
             using (var cnn = this.GetConnection())
             {
@@ -46,7 +48,7 @@ namespace DataBaseAccessService
             }
         }
 
-        public object GetSingleValue(string sqlTxt, DbParameter[] parms)
+        public object GetSingleValue(string sqlTxt, Tuple<string, object>[] parms)
         {
             using (var cnn = this.GetConnection())
             {
@@ -76,7 +78,7 @@ namespace DataBaseAccessService
             }
         }
 
-        public int ExecuteNonQuery(string sqlTxt, DbParameter[] parms)
+        public int ExecuteNonQuery(string sqlTxt, Tuple<string, object>[] parms)
         {
             using (var cnn = this.GetConnection())
             {
@@ -103,7 +105,7 @@ namespace DataBaseAccessService
             return new MySqlConnection(this.connectStr);
         }
 
-        private IDbCommand PrepareCommand(IDbConnection cnn, string sqlTxt, DbParameter[] parms)
+        private IDbCommand PrepareCommand(IDbConnection cnn, string sqlTxt, Tuple<string, object>[] parms)
         {
             var cmd = cnn.CreateCommand();
             cmd.CommandType = CommandType.Text;
@@ -112,7 +114,7 @@ namespace DataBaseAccessService
             {
                 foreach (var parm in parms)
                 {
-                    cmd.Parameters.Add(parm);
+                    cmd.Parameters.Add(new MySqlParameter(parm.Item1, parm.Item2));
                 }
             }
 

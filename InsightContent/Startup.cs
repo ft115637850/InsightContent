@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.WebSockets;
-using System.Threading;
 using System.Threading.Tasks;
 using AuthenticationService.Managers;
+using DataBaseAccessService;
 using InsightContent.Middlewares;
 using InsightContent.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -81,6 +78,14 @@ namespace InsightContent
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSingleton(typeof(IPubSubService), typeof(PubSubService));
             services.AddSingleton<IAuthService>(s => new JWTService(this.Configuration["TokenSecret"]));
+            services.AddSingleton(typeof(IUserService), typeof(UserService));
+            services.AddSingleton<IDBAccessService>(s => new DBAccessService(
+                this.Configuration["DBConfig:Server"],
+                this.Configuration["DBConfig:UserName"],
+                this.Configuration["DBConfig:password"],
+                this.Configuration["DBConfig:DBName"],
+                this.Configuration["DBConfig:encryptKey"]
+            ));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

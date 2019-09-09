@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
-using System.Text;
 
 namespace DataBaseAccessService
 {
     public interface IDBAccessService
     {
-        DataTable GetData(string sqlTxt, DbParameter[] parms);
-        object GetSingleValue(string sqlTxt, DbParameter[] parms);
-        int ExecuteNonQuery(string sqlTxt, DbParameter[] parms);
+        string EncryptKey { get; }
+        DataTable GetData(string sqlTxt, Tuple<string, object>[] parms);
+        object GetSingleValue(string sqlTxt, Tuple<string, object>[] parms);
+        int ExecuteNonQuery(string sqlTxt, Tuple<string, object>[] parms);
     }
 }
