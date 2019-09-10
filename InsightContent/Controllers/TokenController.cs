@@ -49,7 +49,7 @@ namespace InsightContent.Controllers
                     claims = userSvc.Authenticate(username, password);
                     if (claims == null)
                     {
-                        return StatusCode((int)HttpStatusCode.NotFound, "User not found");
+                        return StatusCode((int)HttpStatusCode.Unauthorized, "User not found");
                     }
                 }
             }

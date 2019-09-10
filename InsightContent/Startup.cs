@@ -79,6 +79,8 @@ namespace InsightContent
             services.AddSingleton(typeof(IPubSubService), typeof(PubSubService));
             services.AddSingleton<IAuthService>(s => new JWTService(this.Configuration["TokenSecret"]));
             services.AddSingleton(typeof(IUserService), typeof(UserService));
+            services.AddSingleton(typeof(IResolutionService), typeof(ResolutionService));
+            services.AddSingleton(typeof(ITagService), typeof(TagService));
             services.AddSingleton<IDBAccessService>(s => new DBAccessService(
                 this.Configuration["DBConfig:Server"],
                 this.Configuration["DBConfig:UserName"],
