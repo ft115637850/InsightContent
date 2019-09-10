@@ -17,7 +17,7 @@ namespace InsightContent.Services
 
         public DataTable GetResolutions()
         {
-            return this.dbAccess.GetData("select x,y,view_value from canvas_resolution", null);
+            return this.dbAccess.GetData("select x,y,viewValue from canvas_resolution", null);
         }
     }
 }
