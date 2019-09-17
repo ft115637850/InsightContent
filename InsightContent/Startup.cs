@@ -81,6 +81,7 @@ namespace InsightContent
             services.AddSingleton(typeof(IUserService), typeof(UserService));
             services.AddSingleton(typeof(IResolutionService), typeof(ResolutionService));
             services.AddSingleton(typeof(ITagService), typeof(TagService));
+            services.AddSingleton(typeof(IBackgroundService), typeof(BackgroundService));
             services.AddSingleton<IDBAccessService>(s => new DBAccessService(
                 this.Configuration["DBConfig:Server"],
                 this.Configuration["DBConfig:UserName"],

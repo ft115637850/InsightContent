@@ -33,3 +33,15 @@ CREATE TABLE `user` (
   UNIQUE KEY `name_UNIQUE` (`name`),
   UNIQUE KEY `email_UNIQUE` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `background` (
+  `id` char(36) NOT NULL,
+  `graphicChartId` char(36) NOT NULL,
+  `width` tinyint(4) DEFAULT NULL,
+  `height` tinyint(4) DEFAULT NULL,
+  `bgSizeOption` char(10) DEFAULT NULL,
+  `image` mediumblob,
+  `imgContentType` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `graphicChartId_UNIQUE` (`graphicChartId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

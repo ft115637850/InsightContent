@@ -10,8 +10,9 @@ namespace InsightContent.Entities
     {
         public IFormFile ImgFile { get; set; }
         public string GraphicChartId { get; set; }
-        public decimal Width { get; set; }
-        public decimal Height { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
         public string BgSizeOption { get; set; }
+        public string ImgContentType { get; set; }
     }
 }
