@@ -1,27 +1,14 @@
-﻿using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
 
 namespace DataBaseAccessService
 {
-    public class DBAccessService : IDBAccessService
+    public abstract class DBAccessService : IDBAccessService
     {
-        private string connectStr;
-        public string EncryptKey { get; }
-
-        public DBAccessService(string server, string dbUsr, string dbpwd, string dbName, string encryptKey)
-        {
-            this.connectStr = new MySqlConnectionStringBuilder()
-            {
-                Server = server,
-                UserID = dbUsr,
-                Password = dbpwd,
-                Database = dbName
-            }.ToString();
-            this.EncryptKey = encryptKey;
-        }
+        protected string connectStr;
+        public string EncryptKey { get; protected set; }
 
         public DataTable GetData(string sqlTxt, Tuple<string, object>[] parms)
         {
@@ -82,43 +69,35 @@ namespace DataBaseAccessService
         {
             using (var cnn = this.GetConnection())
             {
-                try
+                cnn.Open();
+                using (var tran = cnn.BeginTransaction(System.Data.IsolationLevel.Serializable))
                 {
-                    var cmd = this.PrepareCommand(cnn, sqlTxt, parms);
-                    cnn.Open();
-                    return cmd.ExecuteNonQuery();
-                }
-                catch (DbException ex)
-                {
-                    Debug.Print("Error SQL:" + sqlTxt);
-                    throw ex;
-                }
-                finally
-                {
-                    cnn.Close();
-                }
-            }
-        }
-
-        protected IDbConnection GetConnection()
-        {
-            return new MySqlConnection(this.connectStr);
-        }
-
-        private IDbCommand PrepareCommand(IDbConnection cnn, string sqlTxt, Tuple<string, object>[] parms)
-        {
-            var cmd = cnn.CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = sqlTxt;
-            if (parms != null)
-            {
-                foreach (var parm in parms)
-                {
-                    cmd.Parameters.Add(new MySqlParameter(parm.Item1, parm.Item2));
+                    try
+                    {
+                        var cmd = this.PrepareCommand(cnn, sqlTxt, parms);
+                        cmd.Transaction = tran;
+                        var result = cmd.ExecuteNonQuery();
+                        tran.Commit();
+                        return result;
+                    }
+                    catch (DbException ex)
+                    {
+                        Debug.Print("Error SQL:" + sqlTxt);
+                        tran.Rollback();
+                        throw ex;
+                    }
+                    finally
+                    {
+                        cnn.Close();
+                    }
                 }
             }
-
-            return cmd;
         }
+
+        public abstract void BulkInsert(DataTable data, string preSql, Tuple<string, object>[] preSqlParms);
+
+        protected abstract IDbConnection GetConnection();        
+
+        protected abstract IDbCommand PrepareCommand(IDbConnection cnn, string sqlTxt, Tuple<string, object>[] parms);
     }
 }

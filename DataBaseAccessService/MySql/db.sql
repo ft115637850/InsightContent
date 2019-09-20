@@ -1,5 +1,5 @@
 ﻿
-CREATE DATABASE `cloud_viz` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_ci */;
+CREATE DATABASE `cloud_viz` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */;
 use cloud_viz;
 
 CREATE TABLE `canvas_resolution` (
@@ -45,3 +45,20 @@ CREATE TABLE `background` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `graphicChartId_UNIQUE` (`graphicChartId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `symbolinfo` (
+  `id` char(36) NOT NULL,
+  `graphicChartId` char(36) NOT NULL,
+  `type` varchar(30) NOT NULL,
+  `tagId` char(36) NOT NULL,
+  `tagName` varchar(45) NOT NULL,
+  `viewBox` varchar(45) NOT NULL,
+  `viewBoxWidth` smallint(6) NOT NULL,
+  `viewBoxHeight` smallint(6) NOT NULL,
+  `positionXRatio` decimal(10,0) NOT NULL,
+  `positionYRatio` decimal(10,0) NOT NULL,
+  `widthRatio` decimal(10,0) NOT NULL,
+  `strokeRGB` char(13) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
