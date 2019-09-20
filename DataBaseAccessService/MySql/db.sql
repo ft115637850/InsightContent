@@ -13,8 +13,8 @@ CREATE TABLE `taginfo` (
   `name` varchar(45) DEFAULT NULL,
   `alias` varchar(45) DEFAULT NULL,
   `units` varchar(45) DEFAULT NULL,
-  `max` decimal(10,0) DEFAULT NULL,
-  `min` decimal(10,0) DEFAULT NULL,
+  `max` decimal(20,5) DEFAULT NULL,
+  `min` decimal(20,5) DEFAULT NULL,
   `dataType` char(10) DEFAULT NULL,
   `source` varchar(45) DEFAULT NULL,
   `description` varchar(1000) DEFAULT NULL,
@@ -55,9 +55,9 @@ CREATE TABLE `symbolinfo` (
   `viewBox` varchar(45) NOT NULL,
   `viewBoxWidth` smallint(6) NOT NULL,
   `viewBoxHeight` smallint(6) NOT NULL,
-  `positionXRatio` decimal(10,0) NOT NULL,
-  `positionYRatio` decimal(10,0) NOT NULL,
-  `widthRatio` decimal(10,0) NOT NULL,
+  `positionXRatio` decimal(7,5) NOT NULL,
+  `positionYRatio` decimal(7,5) NOT NULL,
+  `widthRatio` decimal(7,5) NOT NULL,
   `strokeRGB` char(13) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

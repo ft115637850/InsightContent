@@ -31,14 +31,13 @@ namespace DataBaseAccessService
                     {
                         var cmd = string.IsNullOrEmpty(preSql) ? cnn.CreateCommand() :
                             this.PrepareCommand(cnn, preSql, preSqlParms) as MySqlCommand;
+                        cmd.Transaction = tran;
+                        cmd.CommandType = CommandType.Text;
                         if (!string.IsNullOrEmpty(preSql))
                         {
                             cmd.ExecuteNonQuery();
                             cmd.Parameters.Clear();
                         }
-
-                        cmd.Transaction = tran;
-                        cmd.CommandType = CommandType.Text;
 
                         cmd.CommandText = this.GenBulkInsertSQL(data);
                         var parms = this.GenBulkInsertParameters(data);

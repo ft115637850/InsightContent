@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using InsightContent.Entities;
 using InsightContent.Services;
@@ -24,8 +25,22 @@ namespace InsightContent.Controllers
         [HttpPost]
         public ActionResult<StatusCodeResult> Post([FromBody] GraphicChartDataModel symsInfo)
         {
-            this.symbolSvc.SaveOrUpdateGraphicChartData(symsInfo);
+            try
+            {
+                this.symbolSvc.SaveOrUpdateGraphicChartData(symsInfo);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+            
             return Ok();
+        }
+
+        [HttpGet("{graphicChartId}")]
+        public ActionResult<List<SymbolModel>> Get(string graphicChartId)
+        {
+            return this.symbolSvc.LoadGraphicChartData(graphicChartId);
         }
     }
 }

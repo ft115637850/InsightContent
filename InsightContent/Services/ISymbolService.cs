@@ -9,5 +9,6 @@ namespace InsightContent.Services
     public interface ISymbolService
     {
         void SaveOrUpdateGraphicChartData(GraphicChartDataModel symsInfo);
+        List<SymbolModel> LoadGraphicChartData(string graphicChartId);
     }
 }

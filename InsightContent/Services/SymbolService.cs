@@ -16,6 +16,35 @@ namespace InsightContent.Services
             this.dbAccess = dbAccess;
         }
 
+        public List<SymbolModel> LoadGraphicChartData(string graphicChartId)
+        {
+            var sql = "select id,type,tagId,tagName,viewBox,viewBoxWidth,viewBoxHeight,positionXRatio,positionYRatio,widthRatio,strokeRGB "
+                + "from symbolinfo where graphicChartId=@graphicChartId";
+            var parms = new Tuple<string, object>[]
+            {
+                new Tuple<string, object>("@graphicChartId", graphicChartId),
+            };
+            var data = this.dbAccess.GetData(sql, parms);
+            var result = new List<SymbolModel>();
+            foreach(DataRow row in data.Rows)
+            {
+                result.Add(new SymbolModel {
+                    SymbolId = row[0].ToString(),
+                    SymbolType = row[1].ToString(),
+                    TagId = row[2].ToString(),
+                    TagName = row[3].ToString(),
+                    ViewBox = row[4].ToString(),
+                    ViewBoxWidth = Convert.ToInt16(row[5]),
+                    ViewBoxHeight = Convert.ToInt16(row[6]),
+                    PositionXRatio = Convert.ToDecimal(row[7]),
+                    PositionYRatio = Convert.ToDecimal(row[8]),
+                    WidthRatio = Convert.ToDecimal(row[9]),
+                    StrokeRGB = row[10].ToString()
+                });
+            }
+            return result;
+        }
+
         public void SaveOrUpdateGraphicChartData(GraphicChartDataModel symsInfo)
         {
             var newSymbolList = new DataTable("symbolinfo");
