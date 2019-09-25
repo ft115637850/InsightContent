@@ -29,7 +29,7 @@ namespace InsightContent.Services
             _logger.LogInformation("Timed Background Service is starting.");
 
             _timer = new Timer(DoWork, null, TimeSpan.Zero,
-                TimeSpan.FromSeconds(1));
+                TimeSpan.FromSeconds(0.05));
 
             return Task.CompletedTask;
         }
@@ -74,6 +74,12 @@ namespace InsightContent.Services
                 {
                     dr[1] = DateTime.Now.Second;
                     dr[2] = 59;
+                    dr[3] = 0;
+                }
+                else if (item.Key.Contains("Millisecond"))
+                {
+                    dr[1] = DateTime.Now.Millisecond;
+                    dr[2] = 999;
                     dr[3] = 0;
                 }
                 else if (item.Key.Contains("Trend"))
