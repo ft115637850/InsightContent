@@ -62,3 +62,15 @@ CREATE TABLE `symbolinfo` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+CREATE TABLE `cardinfo` (
+  `id` char(36) NOT NULL,
+  `graphicChartId` char(36) NOT NULL,
+  `positionXRatio` decimal(7,5) NOT NULL,
+  `positionYRatio` decimal(7,5) NOT NULL,
+  `widthRatio` decimal(7,5) NOT NULL,
+  `heightRatio` decimal(7,5) NOT NULL,
+  `strokeRGB` char(13) NOT NULL,
+  `alpha` char(5) NOT NULL,
+  `zOrder` smallint(6) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
