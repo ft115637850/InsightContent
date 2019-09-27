@@ -9,5 +9,6 @@ namespace InsightContent.Entities
     {
         public string GraphicChartId { get; set; }
         public SymbolModel[] SymbolList { get; set; }
+        public CardModel[] CardList { get; set; }
     }
 }

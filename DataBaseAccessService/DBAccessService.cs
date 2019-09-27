@@ -94,7 +94,7 @@ namespace DataBaseAccessService
             }
         }
 
-        public abstract void BulkInsert(DataTable data, string preSql, Tuple<string, object>[] preSqlParms);
+        public abstract void BulkInsert(DataTable[] data, string preSql, Tuple<string, object>[] preSqlParms);
 
         protected abstract IDbConnection GetConnection();        
 

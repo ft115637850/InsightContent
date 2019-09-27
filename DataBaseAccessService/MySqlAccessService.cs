@@ -20,7 +20,7 @@ namespace DataBaseAccessService
             this.EncryptKey = encryptKey;
         }
 
-        public override void BulkInsert(DataTable data, string preSql, Tuple<string, object>[] preSqlParms)
+        public override void BulkInsert(DataTable[] data, string preSql, Tuple<string, object>[] preSqlParms)
         {
             using (var cnn = new MySqlConnection(this.connectStr))
             {
@@ -39,10 +39,15 @@ namespace DataBaseAccessService
                             cmd.Parameters.Clear();
                         }
 
-                        cmd.CommandText = this.GenBulkInsertSQL(data);
-                        var parms = this.GenBulkInsertParameters(data);
-                        cmd.Parameters.AddRange(parms);
-                        cmd.ExecuteNonQuery();
+                        foreach(var dt in data)
+                        {
+                            cmd.CommandText = this.GenBulkInsertSQL(dt);
+                            var parms = this.GenBulkInsertParameters(dt);
+                            cmd.Parameters.AddRange(parms);
+                            cmd.ExecuteNonQuery();
+                            cmd.Parameters.Clear();
+                        }
+
                         tran.Commit();
                     }
                     catch (DbException ex)

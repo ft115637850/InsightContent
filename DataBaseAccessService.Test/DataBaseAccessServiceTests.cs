@@ -111,7 +111,7 @@ namespace DataBaseAccessService.Test
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            dbSvc.BulkInsert(testDt, "delete from testtable");
+            dbSvc.BulkInsert(new DataTable[] { testDt, testDt }, "delete from testtable");
             stopwatch.Stop(); 
             TimeSpan timespan = stopwatch.Elapsed;
             Console.WriteLine(timespan.TotalMilliseconds);

@@ -38,7 +38,7 @@ namespace InsightContent.Controllers
         }
 
         [HttpGet("{graphicChartId}")]
-        public ActionResult<List<SymbolModel>> Get(string graphicChartId)
+        public ActionResult<GraphicChartDataModel> Get(string graphicChartId)
         {
             return this.symbolSvc.LoadGraphicChartData(graphicChartId);
         }
