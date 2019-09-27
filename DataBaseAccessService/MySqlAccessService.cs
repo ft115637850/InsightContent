@@ -41,6 +41,8 @@ namespace DataBaseAccessService
 
                         foreach(var dt in data)
                         {
+                            if (dt.Rows.Count == 0)
+                                continue;
                             cmd.CommandText = this.GenBulkInsertSQL(dt);
                             var parms = this.GenBulkInsertParameters(dt);
                             cmd.Parameters.AddRange(parms);

@@ -17,6 +17,13 @@ namespace InsightContent.Services
         private Timer _timer;
         private IDictionary<string, List<(WebSocket, Guid)>> subscriptionList = new Dictionary<string, List<(WebSocket, Guid)>>();
         private Random seed = new Random(100);
+        private int _suspension = 10000;
+        private int _chroma = 200;
+        private int _lotion = 60;
+        private int _phosphorus = 600;
+        private int _pH = 14;
+        private int _COD = 6000;
+        private int _SS = 1500;
 
         public PubSubService(ILogger<PubSubService> logger)
         {
@@ -29,7 +36,7 @@ namespace InsightContent.Services
             _logger.LogInformation("Timed Background Service is starting.");
 
             _timer = new Timer(DoWork, null, TimeSpan.Zero,
-                TimeSpan.FromSeconds(0.05));
+                TimeSpan.FromSeconds(1));
 
             return Task.CompletedTask;
         }
@@ -58,7 +65,7 @@ namespace InsightContent.Services
                     dr[2] = "";
                     dr[3] = "";
                 }
-                else if (item.Key == "noPumping")
+                else if (item.Key == "Fan")
                 {
                     dr[1] = DateTime.Now.Second % 10 < 5 ? "ON" : "OFF";
                     dr[2] = "";
@@ -93,6 +100,55 @@ namespace InsightContent.Services
                     dr[1] = DateTime.Now.Second % 10 > 5 ? 1 : 0;
                     dr[2] = 1;
                     dr[3] = -1;
+                }
+                else if (item.Key.Contains("suspension"))
+                {
+                    _suspension = _suspension - 50 > 50 ? _suspension - 50 : 10000;
+                    dr[1] = _suspension;
+                    dr[2] = 10000;
+                    dr[3] = 50;
+                }
+                else if (item.Key.Contains("chroma"))
+                {
+                    _chroma = _chroma - 20 > 60 ? _chroma - 20 : 200;
+                    dr[1] = _chroma;
+                    dr[2] = 200;
+                    dr[3] = 60;
+                }
+                else if (item.Key.Contains("lotion"))
+                {
+                    _lotion = _lotion - 5 > 20 ? _lotion - 5 : 60;
+                    dr[1] = _lotion;
+                    dr[2] = 60;
+                    dr[3] = 20;
+                }
+                else if (item.Key.Contains("phosphorus"))
+                {
+                    _phosphorus = _phosphorus - 50 > 2 ? _phosphorus - 50 : 600;
+                    dr[1] = _phosphorus;
+                    dr[2] = 600;
+                    dr[3] = 2;
+                }
+                else if (item.Key.Contains("pH"))
+                {
+                    _pH = _pH - 1 > 0 ? _pH - 1 : 14;
+                    dr[1] = _pH;
+                    dr[2] = 14;
+                    dr[3] = 0;
+                }
+                else if (item.Key.Contains("COD"))
+                {
+                    _COD = _COD - 100 > 0 ? _COD - 100 : 6000;
+                    dr[1] = _COD;
+                    dr[2] = 6000;
+                    dr[3] = 500;
+                }
+                else if (item.Key.Contains("SS"))
+                {
+                    _SS = _SS - 50 > 0 ? _SS - 50 : 1500;
+                    dr[1] = _SS;
+                    dr[2] = 1500;
+                    dr[3] = 200;
                 }
                 else
                 {
