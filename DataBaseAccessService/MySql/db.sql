@@ -2,6 +2,10 @@
 CREATE DATABASE `cloud_viz` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */;
 use cloud_viz;
 
+set global time_zone = '+00:00';
+set global time_zone = '+00:00';
+flush privileges;
+
 CREATE TABLE `canvas_resolution` (
   `x` tinyint(4) DEFAULT NULL,
   `y` tinyint(4) DEFAULT NULL,
@@ -73,4 +77,13 @@ CREATE TABLE `cardinfo` (
   `alpha` char(5) NOT NULL,
   `zOrder` smallint(6) NOT NULL,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `graphic_chart` (
+  `id` char(36) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `createdBy` varchar(45) NOT NULL,
+  `lastEditedAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name_UNIQUE` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

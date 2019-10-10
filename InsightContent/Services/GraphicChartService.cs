@@ -8,12 +8,18 @@ using InsightContent.Entities;
 
 namespace InsightContent.Services
 {
-    public class SymbolService : ISymbolService
+    public class GraphicChartService : IGraphicChartService
     {
         private readonly IDBAccessService dbAccess;
-        public SymbolService(IDBAccessService dbAccess)
+        public GraphicChartService(IDBAccessService dbAccess)
         {
             this.dbAccess = dbAccess;
+        }
+
+        public DataTable GetGraphicChartList()
+        {
+            var sql = "select id, name, createdBy, lastEditedAt from graphic_chart";
+            return this.dbAccess.GetData(sql, null);
         }
 
         public GraphicChartDataModel LoadGraphicChartData(string graphicChartId)

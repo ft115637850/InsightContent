@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -14,12 +15,12 @@ namespace InsightContent.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class SymbolsController : ControllerBase
+    public class GraphicChartController : ControllerBase
     {
-        private readonly ISymbolService symbolSvc;
-        public SymbolsController(ISymbolService symbolSvc)
+        private readonly IGraphicChartService graphicChartSvc;
+        public GraphicChartController(IGraphicChartService graphicChartSvc)
         {
-            this.symbolSvc = symbolSvc;
+            this.graphicChartSvc = graphicChartSvc;
         }
 
         [HttpPost]
@@ -27,7 +28,7 @@ namespace InsightContent.Controllers
         {
             try
             {
-                this.symbolSvc.SaveOrUpdateGraphicChartData(symsInfo);
+                this.graphicChartSvc.SaveOrUpdateGraphicChartData(symsInfo);
             }
             catch (Exception ex)
             {
@@ -40,7 +41,13 @@ namespace InsightContent.Controllers
         [HttpGet("{graphicChartId}")]
         public ActionResult<GraphicChartDataModel> Get(string graphicChartId)
         {
-            return this.symbolSvc.LoadGraphicChartData(graphicChartId);
+            return this.graphicChartSvc.LoadGraphicChartData(graphicChartId);
+        }
+
+        [HttpGet]
+        public ActionResult<DataTable> Get()
+        {
+            return this.graphicChartSvc.GetGraphicChartList();
         }
     }
 }

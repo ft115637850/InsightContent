@@ -82,7 +82,7 @@ namespace InsightContent
             services.AddSingleton(typeof(IResolutionService), typeof(ResolutionService));
             services.AddSingleton(typeof(ITagService), typeof(TagService));
             services.AddSingleton(typeof(IBackgroundService), typeof(BackgroundService)); 
-            services.AddSingleton(typeof(ISymbolService), typeof(SymbolService));
+            services.AddSingleton(typeof(IGraphicChartService), typeof(GraphicChartService));
             services.AddSingleton<IDBAccessService>(s => new MySqlAccessService(
                 this.Configuration["DBConfig:Server"],
                 this.Configuration["DBConfig:UserName"],
