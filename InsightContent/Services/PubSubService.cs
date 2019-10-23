@@ -138,14 +138,14 @@ namespace InsightContent.Services
                 }
                 else if (item.Key.Contains("COD"))
                 {
-                    _COD = _COD - 100 > 0 ? _COD - 100 : 6000;
+                    _COD = _COD - 100 > 500 ? _COD - 100 : 6000;
                     dr[1] = _COD;
                     dr[2] = 6000;
                     dr[3] = 500;
                 }
                 else if (item.Key.Contains("SS"))
                 {
-                    _SS = _SS - 50 > 0 ? _SS - 50 : 1500;
+                    _SS = _SS - 50 > 200 ? _SS - 50 : 1500;
                     dr[1] = _SS;
                     dr[2] = 1500;
                     dr[3] = 200;

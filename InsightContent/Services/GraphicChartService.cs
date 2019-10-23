@@ -24,13 +24,23 @@ namespace InsightContent.Services
 
         public GraphicChartDataModel LoadGraphicChartData(string graphicChartId)
         {
-            var sql = "select id,type,tagId,tagName,viewBox,viewBoxWidth,viewBoxHeight,positionXRatio,positionYRatio,widthRatio,strokeRGB "
-                + "from symbolinfo where graphicChartId=@graphicChartId";
             var parms = new Tuple<string, object>[]
             {
                 new Tuple<string, object>("@graphicChartId", graphicChartId),
             };
+
+            var sql = "select name, createdBy from graphic_chart where id=@graphicChartId";
             var data = this.dbAccess.GetData(sql, parms);
+            if (data.Rows.Count == 0)
+                return null;
+
+            var chartName = data.Rows[0][0].ToString();
+            var createdBy = data.Rows[0][1].ToString();
+
+            sql = "select id,type,tagId,tagName,viewBox,viewBoxWidth,viewBoxHeight,positionXRatio,positionYRatio,widthRatio,strokeRGB "
+                + "from symbolinfo where graphicChartId=@graphicChartId";
+
+            data = this.dbAccess.GetData(sql, parms);
             var symLst = new List<SymbolModel>();
             foreach(DataRow row in data.Rows)
             {
@@ -70,6 +80,8 @@ namespace InsightContent.Services
 
             return new GraphicChartDataModel {
                 GraphicChartId = graphicChartId,
+                Name = chartName,
+                CreatedBy = createdBy,
                 SymbolList = symLst.ToArray(),
                 CardList = cardLst.ToArray()
             };
@@ -77,6 +89,20 @@ namespace InsightContent.Services
 
         public void SaveOrUpdateGraphicChartData(GraphicChartDataModel symsInfo)
         {
+            var newChartHead = new DataTable("graphic_chart");
+            newChartHead.Columns.AddRange(new DataColumn[] {
+                new DataColumn("id"),
+                new DataColumn("name"),
+                new DataColumn("createdBy"),
+                new DataColumn("lastEditedAt")
+            });
+            var newHead = newChartHead.NewRow();
+            newHead[0] = symsInfo.GraphicChartId;
+            newHead[1] = symsInfo.Name;
+            newHead[2] = symsInfo.CreatedBy;
+            newHead[3] = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss");
+            newChartHead.Rows.Add(newHead);
+
             var newSymbolList = new DataTable("symbolinfo");
             newSymbolList.Columns.AddRange(new DataColumn[] {
                 new DataColumn("id"),
@@ -137,13 +163,14 @@ namespace InsightContent.Services
                 newCardList.Rows.Add(newCard);
             }
 
-            var preSql = "delete from symbolinfo where graphicChartId=@graphicChartId;" +
+            var preSql = "delete from graphic_chart where id=@graphicChartId;" + 
+                "delete from symbolinfo where graphicChartId=@graphicChartId;" +
                 "delete from cardinfo where graphicChartId=@graphicChartId;";
             var parms = new Tuple<string, object>[]
             {
                 new Tuple<string, object>("@graphicChartId", symsInfo.GraphicChartId),
             };
-            this.dbAccess.BulkInsert(new DataTable[] { newSymbolList, newCardList }, preSql, parms);
+            this.dbAccess.BulkInsert(new DataTable[] { newChartHead, newSymbolList, newCardList }, preSql, parms);
         }
     }
 }
