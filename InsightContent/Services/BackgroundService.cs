@@ -17,6 +17,12 @@ namespace InsightContent.Services
             this.dbAccess = dbAccess;
         }
 
+        public void DeleteBackground(string graphicChartId)
+        {
+            var parms = new Tuple<string, object>[] { new Tuple<string, object>("@graphicChartId", graphicChartId) };
+            this.dbAccess.ExecuteNonQuery("delete from background where graphicChartId=@graphicChartId", parms);
+        }
+
         public Tuple<byte[], string> GetBackgroundImg(string graphicChartId)
         {
             var parms = new Tuple<string, object>[] {new Tuple<string, object>("@graphicChartId", graphicChartId)};

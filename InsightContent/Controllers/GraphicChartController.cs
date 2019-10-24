@@ -47,5 +47,12 @@ namespace InsightContent.Controllers
         {
             return this.graphicChartSvc.GetGraphicChartList();
         }
+
+        [HttpDelete("{graphicChartId}")]
+        public ActionResult<StatusCodeResult> Delete(string graphicChartId)
+        {
+            this.graphicChartSvc.DeleteGraphicChart(graphicChartId);
+            return Ok();
+        }
     }
 }

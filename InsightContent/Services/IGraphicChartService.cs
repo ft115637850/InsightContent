@@ -11,6 +11,7 @@ namespace InsightContent.Services
     {
         string SaveOrUpdateGraphicChartData(GraphicChartDataModel symsInfo);
         GraphicChartDataModel LoadGraphicChartData(string graphicChartId);
+        void DeleteGraphicChart(string graphicChartId);
         DataTable GetGraphicChartList();
     }
 }

@@ -45,5 +45,12 @@ namespace InsightContent.Controllers
         {
             return this.backgroundSvc.GetBackgroundInfo(id);
         }
+
+        [HttpDelete("{id}")]
+        public ActionResult<StatusCodeResult> Delete(string id)
+        {
+            this.backgroundSvc.DeleteBackground(id);
+            return Ok();
+        }
     }
 }

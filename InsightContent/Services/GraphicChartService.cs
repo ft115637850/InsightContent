@@ -16,6 +16,18 @@ namespace InsightContent.Services
             this.dbAccess = dbAccess;
         }
 
+        public void DeleteGraphicChart(string graphicChartId)
+        {
+            var parms = new Tuple<string, object>[]
+            {
+                new Tuple<string, object>("@graphicChartId", graphicChartId),
+            };
+            var sql = "delete from graphic_chart where id=@graphicChartId;" +
+                "delete from symbolinfo where graphicChartId=@graphicChartId;" +
+                "delete from cardinfo where graphicChartId=@graphicChartId;";
+            this.dbAccess.ExecuteNonQuery(sql, parms);
+        }
+
         public DataTable GetGraphicChartList()
         {
             var sql = "select id, name, createdBy, lastEditedAt from graphic_chart";
