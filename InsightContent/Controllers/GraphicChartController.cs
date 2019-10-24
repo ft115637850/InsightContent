@@ -28,14 +28,12 @@ namespace InsightContent.Controllers
         {
             try
             {
-                this.graphicChartSvc.SaveOrUpdateGraphicChartData(symsInfo);
+                return Ok(this.graphicChartSvc.SaveOrUpdateGraphicChartData(symsInfo));
             }
             catch (Exception ex)
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
-            
-            return Ok();
         }
 
         [HttpGet("{graphicChartId}")]

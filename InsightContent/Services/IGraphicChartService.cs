@@ -9,7 +9,7 @@ namespace InsightContent.Services
 {
     public interface IGraphicChartService
     {
-        void SaveOrUpdateGraphicChartData(GraphicChartDataModel symsInfo);
+        string SaveOrUpdateGraphicChartData(GraphicChartDataModel symsInfo);
         GraphicChartDataModel LoadGraphicChartData(string graphicChartId);
         DataTable GetGraphicChartList();
     }
