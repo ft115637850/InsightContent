@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationService", "Au
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationService.Test", "AuthenticationService.Test\AuthenticationService.Test.csproj", "{0AA1C951-0C5A-4ECA-BD21-1AA77BC6DC7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBaseAccessService", "DataBaseAccessService\DataBaseAccessService.csproj", "{DD69AD3A-0E93-446E-913E-ED9DDB2E14B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataBaseAccessService", "DataBaseAccessService\DataBaseAccessService.csproj", "{DD69AD3A-0E93-446E-913E-ED9DDB2E14B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBaseAccessService.Test", "DataBaseAccessService.Test\DataBaseAccessService.Test.csproj", "{3B750AC0-6E4F-4062-B1AC-AF887F67AD3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataBaseAccessService.Test", "DataBaseAccessService.Test\DataBaseAccessService.Test.csproj", "{3B750AC0-6E4F-4062-B1AC-AF887F67AD3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagDataAccessor", "TagDataAccessor\TagDataAccessor.csproj", "{BF054365-B120-4A2D-A0C5-58853788D9D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{3B750AC0-6E4F-4062-B1AC-AF887F67AD3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B750AC0-6E4F-4062-B1AC-AF887F67AD3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B750AC0-6E4F-4062-B1AC-AF887F67AD3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF054365-B120-4A2D-A0C5-58853788D9D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF054365-B120-4A2D-A0C5-58853788D9D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF054365-B120-4A2D-A0C5-58853788D9D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF054365-B120-4A2D-A0C5-58853788D9D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

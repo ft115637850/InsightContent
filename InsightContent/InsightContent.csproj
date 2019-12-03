@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AuthenticationService\AuthenticationService.csproj" />
     <ProjectReference Include="..\DataBaseAccessService\DataBaseAccessService.csproj" />
+    <ProjectReference Include="..\TagDataAccessor\TagDataAccessor.csproj" />
   </ItemGroup>
 
 </Project>

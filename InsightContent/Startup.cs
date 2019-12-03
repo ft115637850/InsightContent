@@ -37,7 +37,7 @@ namespace InsightContent
                 builder =>
                 {
                     builder.WithOrigins("http://localhost:4200")
-                    .WithOrigins("http://10.5.108.27:4200")
+                    .WithOrigins("http://10.5.108.33:4200")
                                         .AllowAnyHeader()
                                         .AllowAnyMethod();
                 });
