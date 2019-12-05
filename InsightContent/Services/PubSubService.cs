@@ -16,7 +16,7 @@ namespace InsightContent.Services
     public class PubSubService : TagDataAccessor.TagDataAccessorBase, IPubSubService, IDisposable
     {
         private readonly ILogger _logger;
-        private readonly string _VTQserverIP = "10.5.108.33";
+        private readonly string _VTQserverIP = "localhost";
         private readonly int _VTQserverPort = 50051;
         private Server VTQserver;
         private IDictionary<string, List<(WebSocket, Guid)>> subscriptionList = new Dictionary<string, List<(WebSocket, Guid)>>();
